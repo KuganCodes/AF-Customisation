@@ -24,9 +24,3 @@
 
 ### ⛏️[General-Troubleshooting](General-Troubleshooting.md)
 
-
-
-
----
-## GitAds Sponsored
-[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=jfc-group/af-customisation@github)](https://gitads.dev/v1/ad-track?source=jfc-group/af-customisation@github)
