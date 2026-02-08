@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# ONLY for educational purposes, No one is responsible for any type of damage.
+
 # Usage: ./breeze.sh <encrypted_file>
 
 # Exit immediately if a command exits with a non-zero status
@@ -19,18 +21,6 @@ check_success() {
     exit 1
   fi
 }
-
-# Check if OpenSSL version is 1.1.1(x) where x is optional
-check_openssl_version() {
-  openssl_version=$(openssl version | awk '{print $2}')
-  if [[ ! "$openssl_version" =~ ^1\.1\.1([[:alnum:]]*)$ ]]; then
-    echo "Error: OpenSSL version must be 1.1.1 or 1.1.1(x), but found version $openssl_version."
-    exit 1
-  fi
-}
-
-# Step 0: Check OpenSSL version
-check_openssl_version
 
 # Check if the correct number of arguments is provided
 if [ "$#" -ne 1 ]; then
@@ -100,7 +90,13 @@ cp "$SHADOW_FILE" "${SHADOW_FILE}.bak"
 
 # Update the root password hash in the shadow file
 echo "Step 3: Setting new root password hash..."
-sed -i "s|^root:[^:]*:|root:${NEW_PASSWORD_HASH}:|" "$SHADOW_FILE"
+
+# check if macos
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed -i '' "s|^root:[^:]*:|root:${NEW_PASSWORD_HASH}:|" "$SHADOW_FILE"
+else
+  sed -i "s|^root:[^:]*:|root:${NEW_PASSWORD_HASH}:|" "$SHADOW_FILE"
+fi
 check_success "Updating root password hash"
 
 # Ensure the mwan3.user file exists, or prompt for alternative methods
